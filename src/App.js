@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Home from './components/Home';
+import Interview from './components/Interview';
+import Addnew from './components/Addnew';
+import Edit from './components/Edit';
+import Navbar from './components/Navbar';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import axios from 'axios';
+import {connect} from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component  {
+
+  componentDidMount() {
+    axios.get('http://localhost:3001/interviews')
+    .then(res => {
+      console.log(res.data)
+      this.props.fetchAllData(res.data);
+    })
+  }
+
+  render(){
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <Navbar />
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            {/* <Route path='/about' component={About} />
+            <Route path='/contact' component={Contact} />*/}
+            <Route path='/addnew' component={Addnew} /> 
+            <Route path='/interviews/:interview_id/edit' component={Edit} />
+            <Route path='/:interview_id' component={Interview} /> 
+            
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAllData: (data)=> {
+      dispatch({type: 'FETCH', data: data})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
