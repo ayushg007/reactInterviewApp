@@ -14,6 +14,28 @@ class Edit extends Component {
       }
     }
 
+    componentDidMount(){
+      let participantEmails="";
+      axios.get('http://localhost:3001/interviews/'+this.props.match.params.interview_id)
+      .then(res => {
+      console.log(res.data);
+      let participantList = res.data.participants.map(participant => {
+        return(
+          participant.email
+        )
+      })
+      for(let i=0;i<participantList.length;++i){
+        participantEmails+=participantList[i];
+        if(i !== participantList.length-1)
+          participantEmails+= ',';
+      }
+      console.log(participantEmails)
+      this.setState({
+        participants : participantEmails
+      })
+    })
+  }
+      
     handleChange = (e) => {
       // console.log(e.target.id)
       // console.log(e.target.value)
@@ -64,7 +86,7 @@ class Edit extends Component {
                   <label htmlFor="endtime">End Time: </label>
                   <input type="time" id="end_time" onChange={this.handleChange} placeholder="2020-01-04T03:40" defaultValue = {interview.end_time.split("T").pop().split("Z")[0]} />
                   <label htmlFor="participants">Participants: </label>
-                  <input type="text" id="participant_emails" onChange={this.handleChange} />
+                  <input type="text" id="participant_emails" onChange={this.handleChange} defaultValue ={this.state.participants } />
                   <button>Submit</button>
                 </form>
             </div>
