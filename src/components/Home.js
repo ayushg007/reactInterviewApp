@@ -19,7 +19,7 @@ class Home extends Component {
             )
           })
         ) : (
-          <div className="center">No interviews to show</div>
+          <div className="center">No interviews to show...</div>
         );
       return (
         <div>
