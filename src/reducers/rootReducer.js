@@ -25,12 +25,12 @@ const rootReducer = (state = initState, action) => {
     }
 
     if(action.type==='CREATE_INTERVIEW'){
-        let interviews = state.interviews;
-        interviews.push(action.data);
-        console.log(interviews);
+        let newInterviews = state.interviews;
+        newInterviews.push(action.data);
+        console.log(newInterviews);
         return {
             ...state,
-            interviews: interviews
+            interviews: [...newInterviews]
         }
     }
 

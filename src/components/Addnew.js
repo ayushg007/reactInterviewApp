@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {createInterview} from '../actions/interviewActions'
+import {createInterview} from '../actions/createAction'
 
 class Addnew extends React.Component{
     state = {
@@ -10,7 +10,7 @@ class Addnew extends React.Component{
         starttime:null,
         endtime:null,
         date:null,
-        participants_emails : null
+        participant_emails : null
     }
     handleChange = (e) => {
         this.setState({
@@ -23,11 +23,8 @@ class Addnew extends React.Component{
         let interview= {
             'title': this.state.title, 'start_time': this.state.starttime, 'end_time': this.state.endtime,'date':this.state.date
         }
-        axios.post('http://localhost:3001/interviews', {'interview': interview, 'p': this.state.participant_emails})
-        .then((res) => {
-        this.props.createInterview(res.data);
+        this.props.createInterview(interview,this.state.participant_emails);
         this.props.history.push('/');
-    })
       }
     render(){
         return (
@@ -59,8 +56,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      createInterview: (data)=> {
-        dispatch(createInterview(data))
+      createInterview: (interview,participant_emails)=> {
+        dispatch(createInterview(interview,participant_emails))
       }
     }
   }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
-import {editInterview} from '../actions/interviewActions'
+import {editInterview} from '../actions/editAction'
 
 class Edit extends Component {
     constructor(props){
@@ -54,15 +54,11 @@ class Edit extends Component {
       const title = e.target.elements.title.value;
       const participants = e.target.elements.participant_emails.value;
       let interview= {
-        'title': title, 'start_time': start, 'end_time': end,'date':date
+        'id':this.props.match.params.interview_id,'title': title, 'start_time': start, 'end_time': end,'date':date
       }
       console.log(interview);
-      axios.put('http://localhost:3001/interviews/'+this.props.match.params.interview_id.toString(), {'interview':interview, 'p': participants})
-      .then(res => {
-        console.log(res.data);
-        this.props.editInterview(res.data);
+        this.props.editInterview(interview,participants);
         this.props.history.push('/');
-      })
     }
   
     render() {
@@ -107,8 +103,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editInterview: (data)=> {
-      dispatch(editInterview(data))
+    editInterview: (interview,participants)=> {
+      dispatch(editInterview(interview,participants))
     }
   }
 }

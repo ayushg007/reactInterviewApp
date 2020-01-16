@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteInterview } from '../actions/interviewActions'
+import { deleteInterview } from '../actions/deleteAction'
 import Axios from 'axios';
 import {Link} from 'react-router-dom';
 
@@ -33,15 +33,9 @@ class Interview extends Component {
     })
     }
     handleClick = (id) => {
-      Axios.delete('http://localhost:3001/interviews/'+id.toString())
-      .then(res => {
-        Axios.get('http://localhost:3001/interviews')
-        .then(res => {
           //console.log(res.data)
           this.props.deleteInterview(id);
           this.props.history.push('/');
-        })
-      })
     }
     render() {
     
