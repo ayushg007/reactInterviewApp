@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
+
+import { inject, observer } from "mobx-react";
+@inject("InterviewStore")
+@observer
 
 class Home extends Component {
     render(){
-        const { interviews } = this.props;
+        const { interviews } = this.props.InterviewStore;
         const interviewsList = interviews.length ? (
           interviews.map(interview => {
             return (
@@ -37,10 +40,5 @@ class Home extends Component {
     }
   }
 
-  const mapStateToProps = (state) => {
-    return {
-      interviews: state.interviews
-    }
-  }
 
-  export default connect(mapStateToProps)(Home)
+  export default Home;

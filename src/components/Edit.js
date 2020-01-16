@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
 
-import {editInterview} from '../actions/editAction'
+import { inject, observer } from "mobx-react";
+@inject("InterviewStore")
+@observer
 
 class Edit extends Component {
     constructor(props){
@@ -57,12 +58,13 @@ class Edit extends Component {
         'id':this.props.match.params.interview_id,'title': title, 'start_time': start, 'end_time': end,'date':date
       }
       console.log(interview);
-        this.props.editInterview(interview,participants);
+        this.props.InterviewStore.editInterview(interview,participants);
         this.props.history.push('/');
     }
   
     render() {
-        const interview = this.props.interview;
+      const id = this.props.match.params.interview_id;
+      const interview = this.props.InterviewStore.interviews.find(interview => interview.id.toString() === id.toString())
         if(interview==null)
       {
           return (
@@ -93,19 +95,4 @@ class Edit extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  let id = ownProps.match.params.interview_id;
-  console.log(id);
-  return {
-    interview: state.interviews.find(interview => interview.id.toString() === id.toString())
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    editInterview: (interview,participants)=> {
-      dispatch(editInterview(interview,participants))
-    }
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Edit);
+export default (Edit);

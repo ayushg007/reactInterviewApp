@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {createInterview} from '../actions/createAction'
+
+import { inject, observer } from "mobx-react";
+@inject("InterviewStore")
+@observer
 
 class Addnew extends React.Component{
     state = {
@@ -23,7 +26,7 @@ class Addnew extends React.Component{
         let interview= {
             'title': this.state.title, 'start_time': this.state.starttime, 'end_time': this.state.endtime,'date':this.state.date
         }
-        this.props.createInterview(interview,this.state.participant_emails);
+        this.props.InterviewStore.createInterview(interview,this.state.participant_emails);
         this.props.history.push('/');
       }
     render(){
@@ -48,18 +51,5 @@ class Addnew extends React.Component{
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      interviews: state.interviews
-    }
-  }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      createInterview: (interview,participant_emails)=> {
-        dispatch(createInterview(interview,participant_emails))
-      }
-    }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Addnew);
+export default (Addnew);

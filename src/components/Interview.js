@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { deleteInterview } from '../actions/deleteAction'
 import Axios from 'axios';
 import {Link} from 'react-router-dom';
+
+import { inject, observer } from "mobx-react";
+@inject("InterviewStore")
+@observer
 
 class Interview extends Component {
     constructor(props) {
@@ -34,25 +36,26 @@ class Interview extends Component {
     }
     handleClick = (id) => {
           //console.log(res.data)
-          this.props.deleteInterview(id);
+          this.props.InterviewStore.deleteInterview(id);
           this.props.history.push('/');
     }
     render() {
-    
-      const interview = this.props.interview ? (
+      const id = this.props.match.params.interview_id;
+      const interview = this.props.InterviewStore.interviews.find(interview => interview.id.toString() === id.toString())
+      const interView = interview !== undefined ? (
         <div className="interview">
-          <h4 className="center">{this.props.interview.title}</h4>
+          <h4 className="center">{interview.title}</h4>
           <h5>Interview Details:</h5>
-      <p>Date : {this.props.interview.date}</p>
-      <p>Start: {this.props.interview.start_time}</p>
-          <p>End:{this.props.interview.end_time}</p>
+      <p>Date : {interview.date}</p>
+      <p>Start: {interview.start_time}</p>
+          <p>End:{interview.end_time}</p>
           <p> Participants :</p>
         <p>{this.state.participantList}</p>
           <div className="center">
           <button className="btn yellow" >
-          <Link to={"/interviews/"+this.props.interview.id.toString()+"/edit"}>Edit</Link>
+          <Link to={"/interviews/"+interview.id.toString()+"/edit"}>Edit</Link>
           </button>
-            <button className="btn grey" onClick={()=> this.handleClick(this.props.interview.id)}>
+            <button className="btn grey" onClick={()=> this.handleClick(interview.id)}>
               Delete Interview
             </button>
           </div>
@@ -63,24 +66,12 @@ class Interview extends Component {
   
       return (
         <div className="container">
-          {interview}
+          {interView}
         </div>
       )
     }
   }
   
-  const mapStateToProps = (state, ownProps) => {
-    let id = ownProps.match.params.interview_id;
-    return {
-      interview: state.interviews.find(interview => interview.id.toString() === id.toString())
-    }
-  }
   
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      deleteInterview: (id) => dispatch(deleteInterview(id))
-    }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Interview)
+  export default (Interview)
   

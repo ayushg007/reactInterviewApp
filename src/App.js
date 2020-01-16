@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './components/Home';
-import Interview from './components/Interview';
-import Addnew from './components/Addnew';
+import Addnew from './components/Addnew'
 import Edit from './components/Edit';
+import Interview from './components/Interview'
 import Navbar from './components/Navbar';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import axios from 'axios';
-import {connect} from 'react-redux';
-import {fetchAllData}  from './actions/fetchAction'
+import { inject, observer } from "mobx-react";
+
+@inject("InterviewStore")
+@observer
 
 class App extends Component  {
 
   componentDidMount() {
-    this.props.fetchAllData();
+    this.props.InterviewStore.fetchAllData();
   }
 
   render(){
@@ -34,16 +35,6 @@ class App extends Component  {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
 
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchAllData: () => dispatch(fetchAllData())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default (App);
