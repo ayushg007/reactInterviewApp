@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
+import {fetchAllData}  from './actions/interviewActions'
 
 class App extends Component  {
 
@@ -47,9 +48,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllData: (data)=> {
-      dispatch({type: 'FETCH', data: data})
-    }
+    fetchAllData: (data) => dispatch(fetchAllData(data))
   }
 }
 

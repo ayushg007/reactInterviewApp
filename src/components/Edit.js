@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
+import {editInterview} from '../actions/interviewActions'
+
 class Edit extends Component {
     constructor(props){
       super(props);
@@ -106,7 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     editInterview: (data)=> {
-      dispatch({type: 'EDIT_INTERVIEW', data: data})
+      dispatch(editInterview(data))
     }
   }
 }

@@ -5,8 +5,20 @@ export const deleteInterview = (id) => {
     }
   }
 
-export const addInterview =() => {
-    return {
-        type: 'ADD_INTERVIEW'
-      }
+ export const fetchAllData = (data) => {
+   return {
+    type: 'FETCH',
+    data: data
+   }
+ }
+
+ export const createInterview = (data) => {
+   return {
+     type: 'CREATE_INTERVIEW',
+     data: data
+    }
+ }
+ 
+ export const editInterview = (data) => {
+  return {type: 'EDIT_INTERVIEW', data: data}
 }

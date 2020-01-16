@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {createInterview} from '../actions/interviewActions'
 
 class Addnew extends React.Component{
     state = {
@@ -59,7 +60,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
       createInterview: (data)=> {
-        dispatch({type: 'CREATE_INTERVIEW', data: data})
+        dispatch(createInterview(data))
       }
     }
   }
